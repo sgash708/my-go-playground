@@ -1,4 +1,4 @@
-module server
+module bindParameters
 
 go 1.17
 

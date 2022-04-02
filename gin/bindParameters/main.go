@@ -1,7 +1,7 @@
 package main
 
 import (
-	"server/handler"
+	"bindParameters/handler"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,4 +12,8 @@ func main() {
 
 	h := handler.NewHandler()
 	h.AssignRoute(e)
+
+	if err := e.Run(":80"); err != nil {
+		panic(err)
+	}
 }
