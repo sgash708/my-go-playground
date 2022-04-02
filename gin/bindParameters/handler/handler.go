@@ -12,5 +12,6 @@ func (h *Handler) AssignRoute(e *gin.Engine) {
 	g := e.Group("hoge")
 	{
 		g.GET("/array/param", h.GetArrayParamPath)
+		g.GET("/param/:id", h.GetParamUriPath)
 	}
 }
