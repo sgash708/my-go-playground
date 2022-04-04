@@ -2,32 +2,34 @@ package handler_test
 
 import (
 	"bindParameters/handler"
+	"net/http"
 	"net/http/httptest"
 	"testing"
 
 	"github.com/gin-gonic/gin"
 )
 
-func TestGetArrayParamPath(t *testing.T) {
+func TestGetParamUriPath(t *testing.T) {
 	cases := []struct {
 		query      string
 		expected   string
 		statusCode int
 	}{
-		{"/hoge/array/param?params[]=1", "[1]", 200},
-		{"/hoge/array/param?params[]=1&params[]=2", "[1,2]", 200},
+		{"/hoge/param/a1", "a1", 200},
 	}
 
 	for _, c := range cases {
-		// Engine不要のため無視
+		// param := gin.Param{"id", c.expected}
+		// params := gin.Params{param}
+
 		res := httptest.NewRecorder()
-		gc, _ := gin.CreateTestContext(res)
+		gc, e := gin.CreateTestContext(res)
 
-		req := httptest.NewRequest("GET", c.query, nil)
-		gc.Request = req
+		req, _ := http.NewRequest("GET", c.query, nil)
+		e.ServeHTTP(res, req)
+		// gc.Request = req
 
-		h := handler.NewHandler()
-		h.GetArrayParamPath(gc)
+		handler.NewHandler().GetParamUriPath(gc)
 
 		targetStatusCode := res.Code
 		if res.Code != c.statusCode {
